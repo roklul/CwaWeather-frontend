@@ -4,25 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>森森天氣</title>
-    <link rel="icon" type="image/png" href="./icon-v2.png">
-    <link rel="apple-touch-icon" href="./icon-v2.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./icon-v2.png">
+    <title>安安天天氣象</title>
+    <!-- 
+      注意：實際專案中，請將 href 更換為可愛的三麗鷗風格 Icon (例如 Hello Kitty 或肉桂狗)
+      這裡暫時使用一個可愛的雲朵 Emoji 作為示例，某些瀏覽器支援 Data URI 作為 favicon
+    -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☁️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 保持使用可愛的圓體字 -->
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap"
         rel="stylesheet">
 
     <style>
         :root {
-            --ac-green: #7DE1A9;
-            --ac-bg-pattern: #8FD8AF;
-            --ac-cream: #FFFEF2;
-            --ac-yellow: #F9F195;
-            --ac-brown: #796452;
-            --ac-blue: #4FB5D9;
-            --ac-dark: #58504A;
-            --ac-card-border: #E6E0C8;
+            /* === 三麗鷗風格配色 (Sanrio Palette) === */
+            --sanrio-pink-bg: #FFD1DC; /* 柔和粉紅背景 */
+            --sanrio-pink-accent: #FFA7B6; /* 深一點的粉紅強調色 */
+            --sanrio-cream: #FFF9F0; /* 奶油白 */
+            --sanrio-blue: #AEEEEE; /* 天空粉藍 */
+            --sanrio-yellow: #FFFFAA; /* 柔和粉黃 */
+            --sanrio-text: #8A5A5A; /* 溫暖的棕色文字 */
+            --sanrio-mint: #C1FFD7; /* 薄荷綠 */
         }
 
         * {
@@ -34,13 +37,15 @@
 
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
-            background-color: var(--ac-green);
-            /* 更細緻的斜紋背景 */
+            background-color: var(--sanrio-pink-bg);
+            /* 改為可愛的圓點背景 */
             background-image:
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.2) 20px, rgba(255, 255, 255, 0.2) 40px);
+                radial-gradient(var(--sanrio-cream) 20%, transparent 20%),
+                radial-gradient(var(--sanrio-cream) 20%, transparent 20%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
             min-height: 100vh;
-            color: var(--ac-dark);
-            /* 防止 iOS 左右滑動 */
+            color: var(--sanrio-text);
             overflow-x: hidden;
             padding-bottom: 20px;
         }
@@ -51,155 +56,230 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            /* 更柔和的磨砂玻璃效果 */
+            background: rgba(255, 249, 240, 0.6);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 3px dashed var(--sanrio-pink-accent);
         }
 
         .location-pill {
-            background: var(--ac-yellow);
-            color: var(--ac-brown);
-            padding: 5px 15px;
-            border-radius: 20px;
+            background: var(--sanrio-yellow);
+            color: var(--sanrio-text);
+            padding: 8px 18px;
+            border-radius: 30px;
             font-weight: 900;
             font-size: 1.1rem;
-            transform: rotate(-2deg);
-            border: 2px solid white;
-            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+            /* 移除歪斜，改為更圓潤的邊框 */
+            border: 3px solid var(--sanrio-cream);
+            box-shadow: 0 4px 0 var(--sanrio-pink-accent);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* 在地點旁邊加一個小裝飾 */
+        .location-pill::after {
+            content: '🎀';
+            font-size: 0.9rem;
         }
 
         .update-pill {
-            font-size: 0.8rem;
-            color: white;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 4px 10px;
-            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--sanrio-text);
+            background: var(--sanrio-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            border: 2px solid white;
         }
 
         .container {
-            padding: 20px;
+            padding: 25px 20px;
             max-width: 600px;
-            /* 限制在大手機寬度 */
             margin: 0 auto;
         }
 
-        /* === 核心：今日焦點卡片 === */
+        /* === 核心：今日焦點卡片 (三麗鷗風格) === */
         .hero-card {
-            background: var(--ac-cream);
-            border-radius: 35px;
-            padding: 30px 25px;
+            background: var(--sanrio-cream);
+            /* 超級圓潤的邊角 */
+            border-radius: 50px;
+            padding: 35px 25px;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            border: 4px solid white;
-            margin-bottom: 25px;
+            /* 粉色多重邊框和陰影 */
+            border: 5px solid var(--sanrio-pink-accent);
+            box-shadow: 0 10px 0 var(--sanrio-pink-accent), 0 20px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 35px;
             position: relative;
+            /* 增加可愛的內背景圖案 */
+            background-image: radial-gradient(var(--sanrio-pink-bg) 10%, transparent 10%);
+            background-size: 20px 20px;
         }
 
-        /* 像動森的對話氣泡 */
+        /* 裝飾性蝴蝶結 */
+        .hero-card::before {
+            content: '🎀';
+            position: absolute;
+            top: -25px;
+            left: 20px;
+            font-size: 3.5rem;
+            filter: drop-shadow(0 3px 0 rgba(0,0,0,0.1));
+            z-index: 2;
+            animation: gentle-sway 3s infinite ease-in-out;
+        }
+        
+        /* 裝飾性星星 */
+        .hero-card::after {
+            content: '✨';
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.6;
+        }
+
+        /* 像對話氣泡的時間顯示 */
         .hero-period {
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--ac-blue);
-            color: white;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-weight: bold;
+            background: var(--sanrio-blue);
+            color: var(--sanrio-text);
+            padding: 6px 25px;
+            border-radius: 30px;
+            font-weight: 900;
             border: 3px solid white;
-            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .hero-temp-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .hero-icon-wrapper {
+            /* 將 Emoji 包在一個可愛的圓圈裡 */
+            background: var(--sanrio-pink-bg);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid white;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+             animation: soft-bounce 3s infinite ease-in-out;
         }
 
         .hero-icon {
-            font-size: 5rem;
-            filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.1));
-            animation: bounce 3s infinite;
+            font-size: 4rem;
+            filter: drop-shadow(0 3px 0 rgba(0,0,0,0.1));
         }
 
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+        /* 更輕柔的彈跳動畫 */
+        @keyframes soft-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        /* 輕微搖擺動畫 */
+        @keyframes gentle-sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
         }
 
         .hero-temp {
-            font-size: 4.5rem;
+            font-size: 5rem;
             font-weight: 900;
-            color: var(--ac-brown);
+            color: var(--sanrio-text);
             line-height: 1;
+            text-shadow: 2px 2px 0 white;
         }
 
         .hero-desc {
-            font-size: 1.5rem;
-            color: #8A7B70;
-            margin-bottom: 20px;
-            font-weight: bold;
+            font-size: 1.6rem;
+            color: var(--sanrio-pink-accent);
+            margin-bottom: 25px;
+            font-weight: 900;
+            letter-spacing: 1px;
         }
 
-        /* === 上班族最愛的：快速建議區 === */
+        /* === 快速建議區 === */
         .advice-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px dashed #E0D8C0;
+            margin-top: 25px;
+            padding-top: 25px;
+            /* 改為粉色虛線 */
+            border-top: 3px dashed var(--sanrio-pink-accent);
         }
 
         .advice-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.5);
-            padding: 10px;
-            border-radius: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 30px;
+            border: 3px solid var(--sanrio-blue);
+            box-shadow: 0 4px 0 var(--sanrio-blue);
         }
 
         .advice-icon {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 5px;
         }
 
         .advice-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 900;
-            color: var(--ac-brown);
+            color: var(--sanrio-text);
             margin: 5px 0;
             line-height: 1.2;
+        }
+        
+        .advice-subtext {
+            font-size: 0.85rem;
+            color: var(--sanrio-pink-accent);
+            font-weight: 700;
+            background: var(--sanrio-cream);
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 5px;
         }
 
         /* === 稍後預報：橫向滑動區 === */
         .section-title {
-            font-size: 1.2rem;
-            color: white;
+            font-size: 1.4rem;
+            color: var(--sanrio-text);
             margin-bottom: 15px;
             margin-left: 10px;
             font-weight: 900;
-            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            /* 粉色文字描邊效果 */
+            text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
+            display: inline-block;
+            background: var(--sanrio-pink-accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            color: white;
+            border: 3px solid white;
         }
 
         .scroll-container {
             display: flex;
             overflow-x: auto;
             gap: 15px;
-            padding-bottom: 10px;
-            /* 隱藏滾動條但保留功能 */
+            padding: 5px;
+            padding-bottom: 15px;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
@@ -209,61 +289,102 @@
         }
 
         .mini-card {
-            min-width: 140px;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 25px;
+            min-width: 150px;
+            background: var(--sanrio-cream);
+            border-radius: 35px;
             padding: 20px 15px;
             text-align: center;
-            border: 3px solid white;
+            /* 像小票卡一樣的邊框 */
+            border: 4px dotted var(--sanrio-mint);
+            box-shadow: 0 5px 0 var(--sanrio-mint);
             flex-shrink: 0;
-            /* 防止被擠壓 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 小卡片的裝飾背景 */
+        .mini-card::before {
+             content: '';
+             position: absolute;
+             top: 0; left: 0; right: 0; bottom: 0;
+             background-image: linear-gradient(45deg, var(--sanrio-mint) 25%, transparent 25%, transparent 50%, var(--sanrio-mint) 50%, var(--sanrio-mint) 75%, transparent 75%, transparent);
+             background-size: 20px 20px;
+             opacity: 0.1;
+             z-index: 0;
+        }
+        
+        .mini-card > * {
+            position: relative;
+            z-index: 1;
         }
 
         .mini-time {
-            background: var(--ac-green);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            background: var(--sanrio-yellow);
+            color: var(--sanrio-text);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
             display: inline-block;
             margin-bottom: 10px;
-            font-weight: bold;
+            font-weight: 900;
+            border: 2px solid white;
         }
 
         .mini-icon {
-            font-size: 2.5rem;
-            margin: 5px 0;
+            font-size: 2.8rem;
+            margin: 8px 0;
+            filter: drop-shadow(0 2px 0 rgba(0,0,0,0.1));
         }
 
         .mini-temp {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--ac-dark);
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--sanrio-text);
         }
 
-        /* Loading 畫面 */
+        /* Loading 畫面 (更可愛) */
         .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--ac-green);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--sanrio-pink-bg);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 999;
+            background-image:
+                radial-gradient(white 20%, transparent 20%),
+                radial-gradient(white 20%, transparent 20%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        
+        .loading-icon {
+            font-size: 5rem;
+            animation: soft-bounce 1.5s infinite ease-in-out;
+            background: white;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 5px solid var(--sanrio-pink-accent);
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
         }
     </style>
 </head>
 
 <body>
     <div id="loading" class="loading-screen">
-        <div style="font-size: 4rem; animation: bounce 2s infinite;">☁️</div>
-        <p style="color: white; font-weight: bold; margin-top: 20px;">正在觀測雲的流動...</p>
+        <div class="loading-icon">💖</div>
+        <p style="color: var(--sanrio-text); font-weight: 900; margin-top: 25px; font-size: 1.2rem; background: white; padding: 5px 15px; border-radius: 20px; border: 3px solid var(--sanrio-pink-accent);">
+            正在接收可愛電波...
+        </p>
     </div>
+    
     <div class="status-bar">
+        <!-- API 已改為台北，所以這裡顯示台北是正確的 -->
         <div class="location-pill">📍 臺北</div>
         <div id="updateTime" class="update-pill">更新中...</div>
     </div>
@@ -271,19 +392,23 @@
     <div class="container" id="mainContent" style="display: none;">
 
         <div id="heroCard">
+            <!-- Javascript 會填入內容 -->
         </div>
 
-        <h3 class="section-title">稍後預報</h3>
+        <h3 class="section-title">接下來的天氣</h3>
         <div class="scroll-container" id="futureForecasts">
+             <!-- Javascript 會填入內容 -->
         </div>
 
     </div>
 
     <script>
-        const API_URL = "https://cwa-weather-backend-ken.zeabur.app/api/weather/kaohsiung/";
+        // 將 API 改為臺北，以符合介面標示，並獲取較準確的資訊
+        const API_URL = "https://cwa-weather-backend-ken.zeabur.app/api/weather/taipei/";
 
         function getWeatherIcon(weather) {
             if (!weather) return "🌤️";
+            // 可以替換成更可愛的 Emoji 組合
             if (weather.includes("晴")) return "☀️";
             if (weather.includes("多雲")) return "⛅";
             if (weather.includes("陰")) return "☁️";
@@ -294,20 +419,21 @@
 
         function getAdvice(rainProb, maxTemp) {
             let rainIcon = "🌂";
-            let rainText = "不用帶傘";
+            // 修改文案：不用帶傘 -> 放心出門啦
+            let rainText = "放心出門啦"; 
             if (parseInt(rainProb) > 30) {
                 rainIcon = "☂️";
-                rainText = "記得帶傘！";
+                rainText = "記得帶傘喔！";
             }
 
-            let clothIcon = "👕";
+            let clothIcon = "👚";
             let clothText = "舒適穿搭";
             if (parseInt(maxTemp) >= 28) {
-                clothIcon = "🎽";
-                clothText = "短袖出發";
+                clothIcon = "👗";
+                clothText = "清涼短袖";
             } else if (parseInt(maxTemp) <= 20) {
-                clothIcon = "🧥";
-                clothText = "加件外套";
+                clothIcon = "🧣";
+                clothText = "暖暖外套";
             }
 
             return { rainIcon, rainText, clothIcon, clothText };
@@ -315,11 +441,11 @@
 
         function getTimePeriod(startTime) {
             const hour = new Date(startTime).getHours();
-            if (hour >= 5 && hour < 11) return "早晨";
-            if (hour >= 11 && hour < 14) return "中午";
-            if (hour >= 14 && hour < 18) return "下午";
-            if (hour >= 18 && hour < 23) return "晚上";
-            return "深夜";
+            if (hour >= 5 && hour < 11) return "早晨時光";
+            if (hour >= 11 && hour < 14) return "午餐時間";
+            if (hour >= 14 && hour < 18) return "悠閒下午";
+            if (hour >= 18 && hour < 23) return "美好夜晚";
+            return "深夜時分";
         }
 
         function renderWeather(data) {
@@ -336,48 +462,48 @@
                         <div class="hero-card">
                             <div class="hero-period">${period}</div>
                             <div class="hero-temp-container">
-                                <div class="hero-icon">${getWeatherIcon(current.weather)}</div>
+                                <div class="hero-icon-wrapper">
+                                    <div class="hero-icon">${getWeatherIcon(current.weather)}</div>
+                                </div>
                                 <div class="hero-temp">${avgTemp}°</div>
                             </div>
-                            <div class="hero-desc">${current.weather}</div>
+                            <div class="hero-desc">✨ ${current.weather} ✨</div>
                             
                             <div class="advice-grid">
                                 <div class="advice-item">
                                     <div class="advice-icon">${advice.rainIcon}</div>
                                     <div class="advice-text">${advice.rainText}</div>
-                                    <div style="font-size:0.7rem; color:#999">降雨率 ${current.rain}</div>
+                                    <div class="advice-subtext">降雨率 ${current.rain}</div>
                                 </div>
                                 <div class="advice-item">
                                     <div class="advice-icon">${advice.clothIcon}</div>
                                     <div class="advice-text">${advice.clothText}</div>
-                                    <div style="font-size:0.7rem; color:#999">最高溫 ${current.maxTemp}°</div>
+                                    <div class="advice-subtext">最高溫 ${current.maxTemp}°</div>
                                 </div>
                             </div>
                         </div>
                     `;
 
-            // 2. 渲染稍後預報 (包含明天判斷)
+            // 2. 渲染稍後預報
             const scrollContainer = document.getElementById('futureForecasts');
             scrollContainer.innerHTML = '';
-
-            // 抓今天的日期數字 (例如 24)
             const todayDate = new Date().getDate();
 
             others.forEach(f => {
                 let p = getTimePeriod(f.startTime);
-
-                // 判斷該預報的日期是否跟今天不同，不同就是明天
                 const fDate = new Date(f.startTime);
                 if (fDate.getDate() !== todayDate) {
-                    p = "明天" + p;
+                    p = "明天" + p.substring(2); // 簡化顯示，例如 "明天下午"
                 }
 
                 scrollContainer.innerHTML += `
                             <div class="mini-card">
                                 <div class="mini-time">${p}</div>
                                 <div class="mini-icon">${getWeatherIcon(f.weather)}</div>
-                                <div class="mini-temp">${f.minTemp}° - ${f.maxTemp}°</div>
-                                <div style="font-size:0.8rem; color:#888; margin-top:5px;">💧${f.rain}</div>
+                                <div class="mini-temp">${f.minTemp}° ~ ${f.maxTemp}°</div>
+                                <div style="font-size:0.85rem; color:var(--sanrio-pink-accent); margin-top:8px; font-weight:700;">
+                                    💧降雨 ${f.rain}
+                                </div>
                             </div>
                         `;
             });
@@ -388,26 +514,18 @@
             const date = now.getDate();
             const dayIndex = now.getDay();
             const days = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
-
             document.getElementById('updateTime').textContent = `${month}月${date}日 ${days[dayIndex]}`;
         }
 
         async function fetchWeather() {
             try {
-                // 1. 定義「最低等待時間」：1500 毫秒 (1.5秒)
-                const delayPromise = new Promise(resolve => setTimeout(resolve, 1500));
-
-                // 2. 定義「抓取資料」的工作
+                // 增加一點等待時間讓使用者欣賞可愛的 Loading 畫面
+                const delayPromise = new Promise(resolve => setTimeout(resolve, 2000));
                 const fetchPromise = fetch(API_URL).then(res => res.json());
-
-                // 3. Promise.all 會等待「兩個都完成」才會往下走
-                // result 陣列裡，第一個是 delay 的結果(沒用到)，第二個是 api 的 json 資料
                 const [_, json] = await Promise.all([delayPromise, fetchPromise]);
 
                 if (json.success) {
                     renderWeather(json.data);
-
-                    // 資料處理好後，隱藏 Loading，顯示主畫面
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('mainContent').style.display = 'block';
                 } else {
@@ -415,7 +533,9 @@
                 }
             } catch (e) {
                 console.error(e);
-                alert("天氣資料讀取失敗，狸克把網路線咬斷了！");
+                // 更可愛的錯誤訊息
+                alert("哎呀！天氣資料迷路了，請稍後再試試看🥺");
+                document.getElementById('loading').innerHTML = '<div style="font-size:3rem;">🥺</div><p style="margin-top:10px; font-weight:bold; color:var(--sanrio-text)">連線失敗了...</p>';
             }
         }
 
