@@ -258,20 +258,24 @@
         }
 
         /* === 稍後預報：橫向滑動區 === */
+        /* === 修正：字體調整區 === */
         .section-title {
-            font-size: 1.4rem;
-            color: var(--sanrio-text);
+            font-size: 1.5rem; /* 稍微加大 */
+            color: var(--sanrio-text); /* 修正：改為深棕色，讓字跳出來 */
             margin-bottom: 15px;
             margin-left: 10px;
             font-weight: 900;
-            /* 粉色文字描邊效果 */
+            /* 修正：白色描邊配深色字，像貼紙一樣清晰 */
             text-shadow: 2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white;
             display: inline-block;
             background: var(--sanrio-pink-accent);
-            padding: 5px 15px;
-            border-radius: 20px;
-            color: white;
+            padding: 6px 18px; /* 增加一點內距 */
+            border-radius: 25px;
+            color: white; /* 這裡的 color 屬性會被上面的 var(--sanrio-text) 覆蓋，但保留作為 fallback */
+            color: var(--sanrio-text); /* 再次確認使用深色 */
             border: 3px solid white;
+            letter-spacing: 2px; /* 修正：增加字距 */
+            box-shadow: 0 4px 0 rgba(0,0,0,0.1); /* 增加立體感 */
         }
 
         .scroll-container {
